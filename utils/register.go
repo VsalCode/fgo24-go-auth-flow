@@ -22,6 +22,8 @@ var registerHome = `
 REGISTER PAGE
 ------------------------`
 
+var userRegist []DataRegister
+
 func handleRegister() []DataRegister {
 	fmt.Print(registerHome)
 	fmt.Print("\nEnter your FirstName : ")
@@ -50,7 +52,7 @@ func handleRegister() []DataRegister {
 	}
 	password := md5Encode(inputPassword)
 
-	var userRegist []DataRegister
+	
 	userRegist = append(userRegist, DataRegister{firstName: inputFirstName, lastName: inputLastName, email: inputEmail, password: password})
 
 	return userRegist

@@ -1,11 +1,9 @@
 package main
 
-import (
-	"auth-flow/utils"
-)
+import "auth-flow/utils"
 
 func main() {
-	utils.HandleLogin()
+	utils.Auth()
 }
 
 
