@@ -4,6 +4,16 @@ This project demonstrates how to create an Auth flow in interactive CLI using Go
 
 ## Preview
 
+#### Menu
+![Preview](./menu-img.png)
+
+#### Register
+![Preview](./register.png)
+
+#### Login
+![Preview](./login.png)
+
+#### Home
 ![Preview](./image.png)
 
 ## How to Run This Project
