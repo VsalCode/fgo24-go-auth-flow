@@ -1,9 +1,6 @@
 package utils
 
-import (
-	"fmt"
-	"os"
-)
+import "fmt"
 
 type DataLogin struct {
 	fullname string
@@ -11,12 +8,14 @@ type DataLogin struct {
 	password string
 }
 
+var getCurrentUser []DataRegister
+var currentUser *DataRegister
+
 var loginHome = `
-LOGIN PAGE
+LOGIN PAGE 
 ------------------------`
 
 func handleLogin() DataLogin {
-	data := userRegist[0]
 
 	println(loginHome)
 	fmt.Print("\nEnter your Email : ")
@@ -27,52 +26,61 @@ func handleLogin() DataLogin {
 	var inputPassword string
 	fmt.Scanln(&inputPassword)
 
-	if inputEmail != data.email {
-		fmt.Printf("\nYour Email is Wrong!\n")
-		fmt.Printf(`
+	for x := range userRegist {
+
+		if inputEmail != userRegist[x].email {
+			fmt.Printf("\nYour Email is Wrong!\n")
+			fmt.Printf(`
 		Your Password is wrong!
 		1. Try Again
-		2. Exit
+		0. Back To Home
 		`)
-		var inputPasswordAgain string
-		fmt.Scanln(&inputPasswordAgain)
-		if (inputPasswordAgain == "1"){
-			handleLogin()
+			var inputPasswordAgain string
+			fmt.Scanln(&inputPasswordAgain)
+			if inputPasswordAgain == "1" {
+				handleLogin()
+			}
+			if inputPasswordAgain == "0" {
+				Menu()
+			}
 		}
-		if (inputPasswordAgain == "2"){
-			os.Exit(0)
-		}
-	}
 
-	if md5Encode(inputPassword) != data.password {
-		fmt.Printf(`
+		if md5Encode(inputPassword) != userRegist[x].password {
+			fmt.Printf(`
 		Your Password is wrong!
 		1. Try Again
 		2. Forgot Password
-		3. Exit
+		0. Back To Home
 		`)
-		var inputPasswordAgain string
-		fmt.Scanln(&inputPasswordAgain)
-		if (inputPasswordAgain == "1"){
-			handleLogin()
+			var inputPasswordAgain string
+			fmt.Scanln(&inputPasswordAgain)
+			if inputPasswordAgain == "1" {
+				handleLogin()
+			}
+			if inputPasswordAgain == "2" {
+				forgotPassword()
+			}
+			if inputPasswordAgain == "0" {
+				Menu()
+			}
 		}
-		if (inputPasswordAgain == "2"){
-			forgotPassword()
-		}
-		if (inputPasswordAgain == "3"){
-			os.Exit(0)
+
+		if inputEmail == userRegist[x].email && md5Encode(inputPassword) == userRegist[x].password {
+			getCurrentUser = append(getCurrentUser, userRegist[x]) 
 		}
 	}
 
-	defer fmt.Printf("Login Succesfully!")
+	fullname := getCurrentUser[0].getFullName()
 
-	fullname := data.getFullName()
-
-	user := DataLogin{
-		fullname: fullname,
-		email:    data.email,
-		password: data.password,
+	currentUser := DataLogin{
+		fullname: fullname, 
+		email: getCurrentUser[0].email, 
+		password: getCurrentUser[0].password,
 	}
 
-	return user
+	fmt.Println("Login Successfuly!")
+	clear()
+	defer Home()
+
+	return currentUser
 }

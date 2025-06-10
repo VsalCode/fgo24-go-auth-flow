@@ -5,7 +5,7 @@ import (
 )
 
 var forgotUi = `
-REGISTER PAGE
+FORGOT PASSWOD
 ------------------------`
 
 func forgotPassword(){
@@ -14,7 +14,8 @@ func forgotPassword(){
 	var newPassword string
 	fmt.Scanln(&newPassword)	
 
-	userRegist[0].password = md5Encode(newPassword)
+	currentUser.password = md5Encode(newPassword)
 
+	clear()
 	defer handleLogin()
 }
