@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"os"
 )
-
-type login struct {
+type DataLogin struct {
 	fullname string
 	email    string
 	password string
@@ -13,10 +12,9 @@ type login struct {
 
 var loginHome = `
 LOGIN PAGE
-------------------------
-`
+------------------------`
 
-func HandleLogin(){
+func HandleLogin() []DataLogin {
 	dataRegist := handleRegister()
 	data := dataRegist[0]
 
@@ -29,12 +27,22 @@ func HandleLogin(){
 	var inputPassword string
 	fmt.Scanln(&inputPassword)
 
-	if (inputEmail != data.email ){
+	if inputEmail != data.email {
+		fmt.Printf("\nYour Email is Wrong!\n")
+		os.Exit(1)
+	}
+
+	if md5Encode(inputPassword) != data.password {
+		fmt.Printf("\nYour Email is true!\n")
 		os.Exit(1)
 	}
 	
-	if (md5Encode(inputPassword) != data.password ){
-		os.Exit(1)
-	}
-}
+	defer fmt.Printf("Login Succesfully!")
+	
+	fullname := data.getFullName()
 
+	var userLogin []DataLogin
+	userLogin = append(userLogin, DataLogin{fullname: fullname, email: data.email, password: data.password })
+
+	return userLogin
+}

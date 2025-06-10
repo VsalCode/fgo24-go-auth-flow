@@ -6,23 +6,31 @@ import (
 	"os"
 )
 
-
 type DataRegister struct {
-	fullname        string
-	email           string
-	password        string
+	firstName string
+	lastName  string
+	email    string
+	password string
+}
+
+func (x DataRegister) getFullName()string {
+	result := fmt.Sprintf("%s %s", x.firstName, x.lastName)
+	return result
 }
 
 var registerHome = `
 REGISTER PAGE
-------------------------
-`
+------------------------`
 
 func handleRegister() []DataRegister {
 	fmt.Print(registerHome)
-	fmt.Print("\nEnter Fullname : ")
-	var inputFullname string
-	fmt.Scanln(&inputFullname)
+	fmt.Print("\nEnter your FirstName : ")
+	var inputFirstName string
+	fmt.Scanln(&inputFirstName)
+
+	fmt.Print("\nEnter your LastName : ")
+	var inputLastName string
+	fmt.Scanln(&inputLastName)
 
 	fmt.Print("\nEnter your Email : ")
 	var inputEmail string
@@ -32,17 +40,18 @@ func handleRegister() []DataRegister {
 	var inputPassword string
 	fmt.Scanln(&inputPassword)
 
-	fmt.Print("\nEnter your password : ")
+	fmt.Print("\nConfirm your password : ")
 	var confirmPassword string
 	fmt.Scanln(&confirmPassword)
 
 	if confirmPassword != inputPassword {
+		fmt.Println("confirm passowrd must match!")
 		os.Exit(1)
 	}
 	password := md5Encode(inputPassword)
 
 	var userRegist []DataRegister
-	userRegist = append(userRegist, DataRegister{fullname: inputFullname, email: inputEmail, password: password })
+	userRegist = append(userRegist, DataRegister{firstName: inputFirstName, lastName: inputLastName, email: inputEmail, password: password})
 
 	return userRegist
 }
@@ -54,3 +63,87 @@ func md5Encode(input string) string {
 	md5 := hash.Sum(nil)
 	return fmt.Sprintf("%x", md5)
 }
+
+// package utils
+
+// import (
+// 	"crypto/md5"
+// 	"fmt"
+// 	"os"
+// )
+
+// type User interface{
+// 	getFullName()
+// 	md5Encode()
+// }
+
+// type DataUser struct{
+// 	fullname string
+// 	password string
+// }
+
+// type DataRegister struct {
+// 	firstName string
+// 	lastName  string
+// 	email     string
+// 	password  string
+// }
+
+// func (x DataRegister) getFullName()string {
+// 	result := fmt.Sprintf("%s %s", x.firstName, x.lastName)
+// 	return result
+// }
+
+// func (x DataRegister) md5Encode() string {
+// 	hash := md5.New()
+// 	_, _ = hash.Write([]byte(x.password))
+
+// 	md5 := hash.Sum(nil)
+// 	result := fmt.Sprintf("%s",md5)
+// 	return result
+// }
+
+// func getConvert(u User) DataUser {
+// 	return DataUser{
+// 		fullname: u.getFullName(),
+// 		password: u.md5Encode(),
+// 	}
+// }
+
+// var registerHome = `
+// REGISTER PAGE
+// ------------------------`
+
+// func handleRegister() []DataRegister {
+// 	fmt.Print(registerHome)
+// 	fmt.Print("\nEnter your FirstName : ")
+// 	var inputFirstName string
+// 	fmt.Scanln(&inputFirstName)
+
+// 	fmt.Print("\nEnter your LastName : ")
+// 	var inputLastName string
+// 	fmt.Scanln(&inputLastName)
+
+// 	fmt.Print("\nEnter your Email : ")
+// 	var inputEmail string
+// 	fmt.Scanln(&inputEmail)
+
+// 	fmt.Print("\nEnter your password : ")
+// 	var inputPassword string
+// 	fmt.Scanln(&inputPassword)
+
+// 	fmt.Print("\nEnter your password : ")
+// 	var confirmPassword string
+// 	fmt.Scanln(&confirmPassword)
+
+// 	if confirmPassword != inputPassword {
+// 		os.Exit(1)
+// 	}
+
+// 	var userRegist []DataRegister
+// 	userRegist = append(userRegist, DataRegister{firstName: inputFirstName, lastName: inputLastName, email: inputEmail, password: password})
+
+// 	updateData := getConvert(userRegist)
+
+// 	return userRegist
+// }
