@@ -12,23 +12,23 @@ var menuInteractive = `
 1. Register
 2. Login
 0. Exit
-=====================		
+=====================        
 `
 
 func Menu() {
-	fmt.Println()
-	fmt.Printf(menuInteractive)
-	var inputPasswordAgain string
-	fmt.Scanln(&inputPasswordAgain)
+	fmt.Println(menuInteractive)
+	var choice string
+	fmt.Scanln(&choice)
 	clear()
-	if inputPasswordAgain == "1" {
+	switch choice {
+	case "1":
 		handleRegister()
-	}
-	if inputPasswordAgain == "2" {
+	case "2":
 		handleLogin()
-	}
-	if inputPasswordAgain == "3" {
+	case "0":
 		os.Exit(0)
+	default:
+		fmt.Println("Invalid choice!")
+		Menu()
 	}
 }
-

@@ -13,20 +13,29 @@ var homeUi = `
 =====================
 1. Back To Menu
 0. Exit This Program
+=====================
 `
 
 func Home() {
-	fmt.Println()
-	fmt.Println(userRegist)
-	fmt.Printf(homeUi)
-	var inputPasswordAgain string
-	fmt.Scanln(&inputPasswordAgain)
-	if inputPasswordAgain == "1" {
-		clear()
-		currentUser = nil
-		Menu()
+	fmt.Println(homeUi)
+	if currentUser != nil {
+		fmt.Printf("Welcome, %s! (Email: %s)\n", currentUser.fullname, currentUser.email)
+	} else {
+		fmt.Println("No user logged in!")
 	}
-	if inputPasswordAgain == "0" {
+	fmt.Println("Registered users:", userRegist)
+
+	var choice string
+	fmt.Scanln(&choice)
+	switch choice {
+	case "1":
+		clear()
+		Menu()
+	case "0":
 		os.Exit(0)
+	default:
+		fmt.Println("Invalid choice!")
+		clear()
+		Home()
 	}
 }
